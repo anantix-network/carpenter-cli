@@ -22,7 +22,7 @@ There are several ways to install Carpet CLI:
 The easiest way to install is using our install script:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/anantix-network/carpenter-cli/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/anantix-network/carpenter-cli/refs/heads/production/install.sh | bash
 ```
 
 This will:
