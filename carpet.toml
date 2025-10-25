@@ -1,0 +1,21 @@
+version = "0.1.0"
+
+
+[scripts.build]
+command = "cargo build"
+description = "Build the project"
+
+
+[scripts.run]
+command = "cargo run"
+description = "Run the project"
+working_dir = "target/debug"
+
+
+[scripts.test]
+command = "cargo test"
+description = "Run tests"
+
+
+[scripts.test.env]
+RUST_BACKTRACE = "1"
