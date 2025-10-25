@@ -43,7 +43,7 @@ clone_repo() {
     mkdir -p "$tmp_dir"
 
     info "Cloning carpenter-cli repository..."
-    git clone --depth 1 https://github.com/your-username/carpenter-cli.git "$tmp_dir" || error "Failed to clone repository"
+    git clone --depth 1 https://github.com/anantix-network/carpenter-cli "$tmp_dir" || error "Failed to clone repository"
     
     echo "$tmp_dir"
 }
