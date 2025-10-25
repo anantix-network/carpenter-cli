@@ -7,7 +7,7 @@ authors = ["EvarinthoSec <evarin@anantix.network>"]
 license = "Apache-2.0"
 
 [[bin]]
-name = "carpet"
+name = "carpenter-cli"
 path = "src/main.rs"
 
 [dependencies]

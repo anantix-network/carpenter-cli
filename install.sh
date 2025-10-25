@@ -35,25 +35,29 @@ check_requirements() {
     fi
 }
 
+# Set up temporary directory
+setup_temp_dir() {
+    TEMP_DIR="$HOME/.carpet-install"
+    rm -rf "$TEMP_DIR"
+    mkdir -p "$TEMP_DIR"
+    info "Created temporary directory: $TEMP_DIR"
+}
+
 # Clone repository
 clone_repo() {
-    local tmp_dir="$HOME/.carpet-install"
-    info "Creating temporary directory: $tmp_dir"
-    rm -rf "$tmp_dir"
-    mkdir -p "$tmp_dir"
-
     info "Cloning carpenter-cli repository..."
-    git clone --depth 1 https://github.com/anantix-network/carpenter-cli "$tmp_dir" || error "Failed to clone repository"
+    git clone --depth 1 https://github.com/anantix-network/carpenter-cli.git "$TEMP_DIR" || error "Failed to clone repository"
     
-    echo "$tmp_dir"
+    # Make sure the directory contains the cloned repo
+    if [ ! -d "$TEMP_DIR/.git" ]; then
+        error "Failed to clone repository properly"
+    fi
 }
 
 # Build from source
 build_source() {
-    local install_dir="$1"
-    cd "$install_dir"
-    
     info "Building carpenter-cli..."
+    cd "$TEMP_DIR" || error "Failed to change directory to $TEMP_DIR"
     cargo build --release || error "Failed to build carpet-cli"
 }
 
@@ -86,6 +90,9 @@ verify_installation() {
     fi
 }
 
+# Global variable for temp directory
+TEMP_DIR=""
+
 # Main installation process
 main() {
     # Don't run as root
@@ -96,13 +103,11 @@ main() {
     info "Starting carpet-cli installation..."
     
     check_requirements
-    
-    local install_dir
-    install_dir=$(clone_repo)
-    
-    build_source "$install_dir"
-    install_binary "$install_dir"
-    cleanup "$install_dir"
+    setup_temp_dir
+    clone_repo
+    build_source
+    install_binary "$TEMP_DIR"
+    cleanup "$TEMP_DIR"
     verify_installation
 }
 
